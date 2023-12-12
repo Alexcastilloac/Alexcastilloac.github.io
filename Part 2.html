@@ -1,110 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Order Candles</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f7f7f7;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      color: #333;
-    }
-    form {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      display: inline-block;
-      text-align: left;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #333;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="number"] {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    input[type="submit"],
-    button {
-      padding: 10px 20px;
-      background-color: #ff6600;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    input[type="submit"]:hover,
-    button:hover {
-      background-color: #e65100;
-    }
-    #total {
-      font-weight: bold;
-      margin-top: 15px;
-      color: #333;
-    }
-  </style>
-  <script>
-    function calculateTotal() {
-      var quantity = parseInt(document.getElementById('quantity').value);
-      var pricePerCandle = 5;
-      var total = quantity * pricePerCandle;
+    <meta charset="UTF-8">
+    <title>Fruit Order Form</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+        }
 
-      // Apply discount if quantity is greater than 10
-      if (quantity > 10) {
-        var discountPercentage = 10; // 10% discount if quantity exceeds 10
-        var discountAmount = (total * discountPercentage) / 100;
-        total -= discountAmount;
+        #header {
+            background-color: #4CAF50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
 
-        document.getElementById('discount').innerHTML = 'Discount (10% off for quantity > 10): -$' + discountAmount.toFixed(2);
-      } else {
-        document.getElementById('discount').innerHTML = ''; // Clear discount message if no discount applied
-      }
+        #form-container {
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-      document.getElementById('total').innerHTML = 'Total: $' + total.toFixed(2);
-    }
-  </script>
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        select,
+        input[type="number"],
+        button {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        select {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #total {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        #discount-info {
+            margin-top: 20px;
+        }
+    </style>
+    
+    <script>
+        function calculateTotal() {
+            var fruitType = document.getElementById("fruitType").value;
+            var quantity = document.getElementById("quantity").value;
+
+            var prices = {
+                "apple": 1.5,
+                "banana": 2,
+                "orange": 1,
+                "kiwi": 3.5
+            };
+
+            var subtotal = prices[fruitType] * quantity;
+
+            var discount = 0;
+            if (subtotal > 100) {
+                discount = subtotal * 0.05;
+            } else if (subtotal > 50) {
+                discount = subtotal * 0.03;
+            }
+
+            var total = subtotal - discount;
+            document.getElementById("total").innerText = "Total: $" + total.toFixed(2) + " ($" + discount.toFixed(2) + " discount applied)";
+        }
+    </script>
 </head>
 <body>
-  <h1>Welcome to Candle Emporium!</h1>
-  <form action="/submit" method="post">
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" name="firstName" required>
-    
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" required>
-    
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    
-    <label for="phone">Phone:</label>
-    <input type="tel" id="phone" name="phone">
-    
-    <label for="quantity">Please enter the quantity of candles you'd like to order:
-      If the amount is over "10", you will receive a 10% discount
-    </label>
-    <input type="number" id="quantity" name="quantity" min="1" required>
-    
-    <button type="button" onclick="calculateTotal()">Calculate Total</button>
-    
-    <p id="total"></p>
-    <p id="discount"></p>
-    
-    <input type="submit" value="Submit">
-  </form>
+    <div id="header">
+        <h1>Fruit Order Form</h1>
+        <p> <a href="https://alexcastilloac.github.io">Home</a>
+          - <a href="https://alexcastilloac.github.io/Assignment.html">Candles</a> 
+          - <a href="https://isaacjoelm.github.io/CSCI434-Page3.html">JavaScript</a>
+    </div>
+
+    <div id="form-container">
+        <h2>Please select your fruit and quantity:</h2>
+        <form>
+            <label for="fruitType">Select Fruit Type:</label>
+            <select id="fruitType">
+                <option value="apple">Apple - $1.50</option>
+                <option value="banana">Banana - $2.00</option>
+                <option value="orange">Orange - $1.00</option>
+                <option value="kiwi">Kiwi - $3.50</option>
+            </select>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" placeholder="Enter quantity" min="1">
+
+            <button type="button" onclick="calculateTotal()">Calculate Total</button>
+            
+            <p id="total"></p>
+        </form>
+        <div id="discount-info">
+            <p>Discounts applied at checkout:</p>
+            <p>Orders of $50 and greater - 3%</p>
+            <p>Orders of $100 and greater - 5%</p>
+        </div>
+    </div>
 </body>
 </html>
